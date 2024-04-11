@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardActions, Button, Typography, Grid, CardMedia } from '@mui/material';
+import 'daisyui/dist/full.css'; // Importar DaisyUI
 import './styles.css';
 
-function ProductList({ products, addToCart }) {
+function ProductList({ products, addToCart, addToFavorites }) {
   return (
     <Grid container spacing={2}>
       {products.map((product) => (
@@ -16,14 +17,15 @@ function ProductList({ products, addToCart }) {
             />
             <CardContent>
               <Typography variant="h6" component="div">
-                {product.name}
+                <span className="text-white">{product.name}</span>
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {product.price} $
+                <span className="text-white">{product.price} $</span>
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => addToCart(product)}>Agregar al carrito</Button>
+              <Button size="small" onClick={() => addToCart(product)} className="btn btn-primary">Agregar al carrito</Button>
+              <Button size="small" onClick={() => addToFavorites(product)} className="btn btn-primary">Agregar a favoritos</Button>
             </CardActions>
           </Card>
         </Grid>
@@ -34,6 +36,10 @@ function ProductList({ products, addToCart }) {
 
 function App() {
   const [cart, setCart] = useState({});
+  const [favorites, setFavorites] = useState({});
+  const [showCart, setShowCart] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
+
   const products = [
     { id: 1, name: 'Collar para perro', price: 10000, image: 'collar_perro.png' },
     { id: 2, name: 'Corta uñas para gato', price: 15000, image: 'cortaunas.png' },
@@ -69,46 +75,98 @@ function App() {
     });
   };
 
+  const addToFavorites = (product) => {
+    setFavorites((prevFavorites) => ({
+      ...prevFavorites,
+      [product.id]: product
+    }));
+  };
+
   const getTotalPrice = () => {
     return Object.values(cart).reduce((acc, product) => acc + (product.price * product.quantity), 0);
   };
 
   return (
-    <div className="container">
+    <div className="container bg-white">
       <div className="productList">
-        <h1>Tienda Garritas</h1>
-        <ProductList products={products} addToCart={addToCart} />
+        <h1 style={{ fontSize: '3rem', fontWeight: 'bold', marginTop: '1rem', marginBottom: '1.5rem', fontFamily: 'Arial, sans-serif' }}>Tienda Garritas</h1>
+        <ProductList products={products} addToCart={addToCart} addToFavorites={addToFavorites} />
       </div>
-      <Cart cart={cart} removeFromCart={removeFromCart} getTotalPrice={getTotalPrice} />
+      <div className="buttons">
+        <button
+          className="btn btn-primary mt-4"
+          onClick={() => setShowCart(!showCart)}
+        >
+          {showCart ? (
+            <img src="/carrito_de_compras.png" alt="Carrito de compras" style={{ width: '20px', marginRight: '8px' }} />
+          ) : (
+            <img src="/carrito_de_compras.png" alt="Carrito de compras" style={{ width: '20px', marginRight: '8px' }} />
+          )}
+
+        </button>
+        <button
+          className="btn btn-primary mt-4"
+          onClick={() => setShowFavorites(!showFavorites)}
+        >
+          {showFavorites ? (
+            <img src="/favoritos.png" alt="Favoritos" style={{ width: '20px', marginRight: '8px' }} />
+          ) : (
+            <img src="/favoritos.png" alt="Favoritos" style={{ width: '20px', marginRight: '8px' }} />
+          )}
+
+        </button>
+      </div>
+      {showCart && (
+        <Cart cart={cart} removeFromCart={removeFromCart} getTotalPrice={getTotalPrice} />
+      )}
+      {showFavorites && (
+        <Favorites favorites={favorites} />
+      )}
     </div>
   );
 }
 
 function Cart({ cart, removeFromCart, getTotalPrice }) {
   return (
-    <div className="cart">
-      <h2>Carrito de compras</h2>
+    <div className="cart mt-4 bg-white">
+      <h1 className="text-xl font-bold mb-2">Carrito de compras</h1>
       <ul>
         {Object.values(cart).map((product) => (
-          <li key={product.id}>
-            <div className="product-info">
+          <li key={product.id} className="mb-2">
+            <div className="flex justify-between items-center">
               <div>
-                <span>{product.name} - {product.price} $</span>
+                <span className="text-white">+ {product.name} - {product.price} $</span>
               </div>
-              <div>
-                <span>Cantidad: {product.quantity}</span>
-                <button onClick={() => removeFromCart(product.id)}>Quitar del carrito</button>
+              <div className="flex items-center">
+                <span className="mr-2 text-white">Cantidad: {product.quantity}</span>
+                <button style={{ width: '120px', height: '10px' }} className="btn btn-outline btn-square btn-primary" onClick={() => removeFromCart(product.id)}>Quitar del carrito</button>
               </div>
             </div>
           </li>
         ))}
       </ul>
-      <h3>Total: {getTotalPrice()} $</h3>
+      <h3 className="text-lg font-bold mt-4">Total: {getTotalPrice()} $</h3>
     </div>
   );
 }
 
-
+function Favorites({ favorites }) {
+  return (
+    <div className="favorites mt-4 bg-white">
+      <h1 className="text-xl font-bold mb-2">Productos Favoritos</h1>
+      <ul>
+        {Object.values(favorites).map((product) => (
+          <li key={product.id} className="mb-2">
+            <div className="flex justify-between items-center">
+              <div>
+                <span className="text-white">{product.name} - {product.price} $</span>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export default App;
-
