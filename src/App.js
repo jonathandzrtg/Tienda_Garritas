@@ -3,7 +3,7 @@ import { Card, CardContent, CardActions, Button, Typography, Grid, CardMedia } f
 import 'daisyui/dist/full.css'; // Importar DaisyUI
 import './styles.css';
 
-function ProductList({ products, addToCart, addToFavorites }) {
+function ProductList({ products, addToCart, toggleFavorite }) {
   return (
     <Grid container spacing={2}>
       {products.map((product) => (
@@ -25,7 +25,7 @@ function ProductList({ products, addToCart, addToFavorites }) {
             </CardContent>
             <CardActions>
               <Button size="small" onClick={() => addToCart(product)} className="btn btn-primary">Agregar al carrito</Button>
-              <Button size="small" onClick={() => addToFavorites(product)} className="btn btn-primary">Agregar a favoritos</Button>
+              <Button size="small" onClick={() => toggleFavorite(product)} className="btn btn-primary">Agregar a favoritos</Button>
             </CardActions>
           </Card>
         </Grid>
@@ -75,11 +75,16 @@ function App() {
     });
   };
 
-  const addToFavorites = (product) => {
-    setFavorites((prevFavorites) => ({
-      ...prevFavorites,
-      [product.id]: product
-    }));
+  const toggleFavorite = (product) => {
+    setFavorites((prevFavorites) => {
+      if (prevFavorites[product.id]) {
+        const newFavorites = { ...prevFavorites };
+        delete newFavorites[product.id];
+        return newFavorites;
+      } else {
+        return { ...prevFavorites, [product.id]: product };
+      }
+    });
   };
 
   const getTotalPrice = () => {
@@ -89,8 +94,8 @@ function App() {
   return (
     <div className="container bg-white">
       <div className="productList">
-        <h1 style={{ fontSize: '3rem', fontWeight: 'bold', marginTop: '1rem', marginBottom: '1.5rem', fontFamily: 'Arial, sans-serif' }}>Tienda Garritas</h1>
-        <ProductList products={products} addToCart={addToCart} addToFavorites={addToFavorites} />
+        <h1 style={{ textAlign: 'center', fontSize: '3rem', fontWeight: 'bold', marginTop: '1rem', marginBottom: '1.5rem', fontFamily: 'Arial, sans-serif' }}>Tienda Garritas</h1>
+        <ProductList products={products} addToCart={addToCart} toggleFavorite={toggleFavorite} />
       </div>
       <div className="buttons">
         <button
@@ -139,7 +144,7 @@ function Cart({ cart, removeFromCart, getTotalPrice }) {
               </div>
               <div className="flex items-center">
                 <span className="mr-2 text-white">Cantidad: {product.quantity}</span>
-                <button style={{ width: '120px', height: '10px' }} className="btn btn-outline btn-square btn-primary" onClick={() => removeFromCart(product.id)}>Quitar del carrito</button>
+                <button style={{ width: '130px', height: '10px' }} className="btn btn-outline btn-square btn-primary" onClick={() => removeFromCart(product.id)}>Quitar del carrito</button>
               </div>
             </div>
           </li>
