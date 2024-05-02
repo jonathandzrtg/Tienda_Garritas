@@ -1,18 +1,13 @@
-#product-list-section {
-  flex: 1;
-}
-
-#button-section {
-  display: flex;
-  justify-content: space-around;
-}
-
-.container {
-  display: flex;
-}
-
+/* Estilos base */
 .productList {
-  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cardImage {
+  width: 100%;
+  height: auto;
 }
 
 .buttons {
@@ -20,77 +15,54 @@
   justify-content: space-around;
 }
 
-.cart {
-  width: 300px;
-  position: sticky;
-  top: 20px;
-  margin-left: auto;
-  background-color: #f2f2f2;
-  border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 5px;
+/* Reglas de Media Query */
+@media screen and (min-width: 480px) {
+  .cart {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+    z-index: 999; /* Asegura que el carrito esté sobre la sección de favoritos */
+  }
+
+  .favorites {
+    position: fixed;
+    top: 20px;
+    left: 20px; /* Alinea la sección de favoritos a la izquierda */
+    width: 300px;
+    z-index: 998; /* Z-index menor para que esté detrás del carrito */
+  }
 }
 
-.cart ul {
-  list-style: none;
-  padding: 0;
+@media screen and (min-width: 768px) {
+  .buttons {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000; /* Asegura que los botones estén sobre el carrito y los favoritos */
+  }
 }
 
-.cart h1 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+@media screen and (min-width: 1024px) {
+  .buttons {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000; /* Asegura que los botones estén sobre el carrito y los favoritos */
+  }
 }
 
-.cart li {
-  margin-bottom: 1rem;
-}
-
-.cart li:last-child {
-  margin-bottom: 0;
-}
-
-.cart .btn {
-  width: 100%;
-  padding: 0.5rem;
-  background-color: #007bff;
-  color: #fff;
+/* Estilos adicionales */
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4b7bec;
+  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-.cart .btn:hover {
-  background-color: #0056b3;
-}
-
-.favorites {
-  width: 300px;
-  position: sticky;
-  top: 20px;
-  margin-left: auto;
-  background-color: #f2f2f2;
-  border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 5px;
-}
-
-
-.favorites ul {
-  list-style: none;
-  padding: 0;
-}
-
-.favorites h1 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.favorites li {
-  margin-bottom: 1rem;
-}
-
-.favorites li:last-child {
-  margin-bottom: 0;
+.btn:hover {
+  background-color: #3853a2;
 }
