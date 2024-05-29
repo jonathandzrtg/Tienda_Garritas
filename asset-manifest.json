@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Tienda_Garritas/static/css/main.1d4b3150.css",
+    "main.js": "/Tienda_Garritas/static/js/main.8a0265f3.js",
+    "static/js/453.3b348f36.chunk.js": "/Tienda_Garritas/static/js/453.3b348f36.chunk.js",
+    "index.html": "/Tienda_Garritas/index.html",
+    "main.1d4b3150.css.map": "/Tienda_Garritas/static/css/main.1d4b3150.css.map",
+    "main.8a0265f3.js.map": "/Tienda_Garritas/static/js/main.8a0265f3.js.map",
+    "453.3b348f36.chunk.js.map": "/Tienda_Garritas/static/js/453.3b348f36.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1d4b3150.css",
+    "static/js/main.8a0265f3.js"
+  ]
+}
